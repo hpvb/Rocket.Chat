@@ -1,0 +1,4 @@
+FROM node:12.18.4-buster-slim
+
+RUN apt-get -y update && apt-get -y install g++ build-essential git curl python-minimal pkg-config  && curl https://install.meteor.com/ | sh 
+
