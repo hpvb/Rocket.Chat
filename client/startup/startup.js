@@ -11,7 +11,7 @@ import hljs from '../../app/markdown/lib/hljs';
 import { fireGlobalEvent, alerts } from '../../app/ui-utils';
 import { getUserPreference, t } from '../../app/utils';
 import { hasPermission } from '../../app/authorization/client';
-import 'highlight.js/styles/github.css';
+import 'highlight.js/styles/tomorrow-night.css';
 import { synchronizeUserData } from '../lib/userData';
 
 hljs.initHighlightingOnLoad();
