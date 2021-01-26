@@ -182,6 +182,7 @@ import x86asm from 'highlight.js/lib/languages/x86asm';
 import xl from 'highlight.js/lib/languages/xl';
 import xquery from 'highlight.js/lib/languages/xquery';
 import zephir from 'highlight.js/lib/languages/zephir';
+import gdscript from 'highlight.js/lib/languages/gdscript';
 
 
 hljs.registerLanguage('javascript', javascript);
@@ -367,5 +368,6 @@ hljs.registerLanguage('x86asm', x86asm);
 hljs.registerLanguage('xl', xl);
 hljs.registerLanguage('xquery', xquery);
 hljs.registerLanguage('zephir', zephir);
+hljs.registerLanguage('gdscript', gdscript);
 
 export default hljs;
