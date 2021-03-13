@@ -2,6 +2,8 @@ import { expect } from 'chai';
 
 import { getCredentials, api, login, request, credentials } from '../../data/api-data.js';
 import { adminEmail, adminUsername, adminPassword, password } from '../../data/user.js';
+import { createUser, login as doLogin } from '../../data/users.helper';
+import { updateSetting } from '../../data/permissions.helper';
 
 describe('miscellaneous', function() {
 	this.retries(0);
@@ -154,6 +156,7 @@ describe('miscellaneous', function() {
 				expect(res.body).to.have.nested.property('emails[0].address', adminEmail);
 				expect(res.body).to.have.nested.property('settings.preferences').and.to.be.an('object');
 				expect(res.body.settings.preferences).to.have.all.keys(allUserPreferencesKeys);
+				expect(res.body.services).to.not.have.property('password');
 			})
 			.end(done);
 	});
@@ -447,8 +450,37 @@ describe('miscellaneous', function() {
 		});
 	});
 
-	describe('/instances.get', () => {
-		it('should return available instances', (done) => {
+	describe('[/instances.get]', () => {
+		let unauthorizedUserCredentials;
+		before(async () => {
+			const createdUser = await createUser();
+			unauthorizedUserCredentials = await doLogin(createdUser.username, password);
+		});
+
+		it('should fail if user is logged in but is unauthorized', (done) => {
+			request.get(api('instances.get'))
+				.set(unauthorizedUserCredentials)
+				.expect('Content-Type', 'application/json')
+				.expect(403)
+				.expect((res) => {
+					expect(res.body).to.have.property('success', false);
+					expect(res.body).to.have.property('error', 'unauthorized');
+				})
+				.end(done);
+		});
+
+		it('should fail if not logged in', (done) => {
+			request.get(api('instances.get'))
+				.expect('Content-Type', 'application/json')
+				.expect(401)
+				.expect((res) => {
+					expect(res.body).to.have.property('status', 'error');
+					expect(res.body).to.have.property('message');
+				})
+				.end(done);
+		});
+
+		it('should return instances if user is logged in and is authorized', (done) => {
 			request.get(api('instances.get'))
 				.set(credentials)
 				.expect(200)
@@ -471,6 +503,36 @@ describe('miscellaneous', function() {
 					expect(extraInformation).to.have.property('nodeVersion');
 				})
 				.end(done);
+		});
+	});
+
+	describe('[/shield.svg]', () => {
+		it('should fail if API_Enable_Shields is disabled', (done) => {
+			updateSetting('API_Enable_Shields', false).then(() => {
+				request.get(api('shield.svg'))
+					.expect('Content-Type', 'application/json')
+					.expect(400)
+					.expect((res) => {
+						expect(res.body).to.have.property('success', false);
+						expect(res.body).to.have.property('errorType', 'error-endpoint-disabled');
+					})
+					.end(done);
+			});
+		});
+
+		it('should succeed if API_Enable_Shields is enabled', (done) => {
+			updateSetting('API_Enable_Shields', true).then(() => {
+				request.get(api('shield.svg'))
+					.query({
+						type: 'online',
+						icon: true,
+						channel: 'general',
+						name: 'Rocket.Chat',
+					})
+					.expect('Content-Type', 'image/svg+xml;charset=utf-8')
+					.expect(200)
+					.end(done);
+			});
 		});
 	});
 });
