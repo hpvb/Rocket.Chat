@@ -1,7 +1,7 @@
 <template name="thread">
 	<section class="contextual-bar__content flex-tab threads dropzone {{dragAndDrop}} {{hideUsername}}">
 		<div class="dropzone-overlay {{isDropzoneDisabled}} background-transparent-darkest color-content-background-color">{{_ dragAndDropLabel}}</div>
-		<div class="thread-list js-scroll-thread">
+		<div class="thread-list js-scroll-thread {{messageViewMode}}">
 			<ul class="thread">
 				{{# with messageContext}}
 				{{#if isLoading}}

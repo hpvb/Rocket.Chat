@@ -11,7 +11,7 @@ import { normalizeThreadTitle } from '../../threads/client/lib/normalizeThreadTi
 import { MessageTypes, MessageAction } from '../../ui-utils/client';
 import { RoomRoles, UserRoles, Roles } from '../../models/client';
 import { Markdown } from '../../markdown/client';
-import { t, roomTypes } from '../../utils';
+import { t, roomTypes, getUserPreference } from '../../utils';
 import './messageThread';
 import { AutoTranslate } from '../../autotranslate/client';
 import { escapeHTML } from '../../../lib/escapeHTML';
@@ -430,6 +430,15 @@ Template.message.helpers({
 	isThreadReply() {
 		const { groupable, msg: { tmid, t, groupable: _groupable }, settings: { showreply } } = this;
 		return !(groupable === true || _groupable === true) && !!(tmid && showreply && (!t || t === 'e2e'));
+	},
+	messageViewMode() {
+		const viewMode = getUserPreference(Meteor.userId(), 'messageViewMode');
+		const modes = ['', '', '', 'compact-aligned'];
+		return modes[viewMode] || modes[0];
+	},
+	isCompactAligned() {
+		const viewMode = getUserPreference(Meteor.userId(), 'messageViewMode');
+		return viewMode === 3;
 	},
 	shouldHideBody() {
 		const { msg: { tmid, actionContext }, settings: { showreply }, context } = this;

@@ -135,6 +135,11 @@ Template.thread.helpers({
 			onChange: () => instance.state.set('sendToChannel', !checked),
 		};
 	},
+	messageViewMode() {
+		const viewMode = getUserPreference(Meteor.userId(), 'messageViewMode');
+		const modes = ['', '', '', 'compact-aligned'];
+		return modes[viewMode] || modes[0];
+	},
 });
 
 

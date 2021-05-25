@@ -8,7 +8,7 @@
 	display: block;
 }
 
-.message.sequential[data-tmid] > .message-body-wrapper > .title {
+.message.sequential[data-tmid] > .message-body-wrapper > .title:not(.compact-aligned) {
 	display: none;
 }
 
@@ -210,6 +210,33 @@
 		& .thread-replied {
 			flex-basis: 100%;
 		}
+	}
+}
+
+.compact-aligned {
+	& .thread-replied-spacer {
+		flex: 0 0 10%;
+
+		min-width: 3.5rem;
+		max-width: 10rem;
+	}
+
+	& .quote-spacer {
+		flex: 0 0 10%;
+
+		min-width: 3.5rem;
+		max-width: 10rem;
+	}
+
+	& .message > .thread-replied > .thumb {
+		position: relative;
+		left: 0;
+
+		margin-right: 4px;
+	}
+
+	& .thread-quote {
+		margin-left: 0;
 	}
 }
 

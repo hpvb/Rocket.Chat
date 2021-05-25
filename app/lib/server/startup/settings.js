@@ -448,6 +448,10 @@ settings.addGroup('Accounts', function() {
 					key: 2,
 					i18nLabel: 'Compact',
 				},
+				{
+					key: 3,
+					i18nLabel: 'Compact Aligned',
+				},
 			],
 			public: true,
 			i18nLabel: 'MessageBox_view_mode',
