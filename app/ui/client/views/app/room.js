@@ -337,7 +337,7 @@ Template.roomOld.helpers({
 
 	messageViewMode() {
 		const viewMode = getUserPreference(Meteor.userId(), 'messageViewMode');
-		const modes = ['', 'cozy', 'compact'];
+		const modes = ['', 'cozy', 'compact', 'compact-aligned'];
 		return modes[viewMode] || modes[0];
 	},
 

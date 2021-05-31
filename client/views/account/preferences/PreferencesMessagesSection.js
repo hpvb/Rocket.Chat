@@ -80,6 +80,7 @@ const PreferencesMessagesSection = ({ onChange, commitRef, ...props }) => {
 		[0, t('Normal')],
 		[1, t('Cozy')],
 		[2, t('Compact')],
+		[3, t('Compact Aligned')],
 	], [t]);
 
 	commitRef.current.messages = commit;

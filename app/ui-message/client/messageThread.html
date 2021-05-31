@@ -1,4 +1,6 @@
 <template name="messageThread">
+	<div class="quote-wrapper" style="display: flex;">
+	<div class="quote-spacer"></div>
 	<q role="button" title="{{_ "Open_thread"}}" class="thread-quote js-open-thread">
 		{{> icon icon="thread" block="thread-icons"}} <div class="thread-quote__message "><span class="message-body--unstyled">{{{parentMessage}}}</span></div>
 		{{# if following }}
@@ -11,4 +13,5 @@
 		</div>
 		{{/if}}
 	</q>
+	</div>
 </template>

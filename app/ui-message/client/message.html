@@ -3,6 +3,7 @@
 		{{#if isThreadReply}}
 			{{> messageThread parentMessage=parentMessage msg=msg tmid=msg.tmid class=bodyClass following=msg.following}}
 			<div class="thread-replied js-open-thread">
+				<div class="thread-replied-spacer"></div>
 				<button aria-label="{{msg.u.username}}" class="thumb user-card-message" data-username="{{msg.u.username}}">
 					{{> avatar username=msg.u.username}}
 				</button>
@@ -36,7 +37,7 @@
 				{{/if}}
 			{{/if}}
 			<div class="message-body-wrapper">
-				<div class="title border-component-color color-info-font-color">
+				<div class="title border-component-color color-info-font-color {{messageViewMode}}">
 					<button type="button" class="user user-card-message color-primary-font-color" data-username="{{msg.u.username}}" tabindex="1">
 						{{getName}}{{#if showUsername}} <span class="message-alias border-component-color color-info-font-color">@{{msg.u.username}}</span>{{/if}}
 					</button>
@@ -52,7 +53,7 @@
 					{{#if isBot}}
 						<span class="is-bot color-secondary-color border-component-color">{{_ "Bot"}}</span>
 					{{/if}}
-					<time class="time" title='{{date}} {{time}}' datetime='{{date}} {{time}}'>{{time}}</time>
+					{{#unless isCompactAligned}} <time class="time" title='{{date}} {{time}}' datetime='{{date}} {{time}}'>{{time}}</time>{{/unless}}
 					{{#if showTranslated}}
 						<span class="translated">
 							<i class="icon-language {{#if msg.autoTranslateFetching}}loading{{/if}}" title="{{_ "Translated"}}"></i>
@@ -105,8 +106,11 @@
 						{{> messageLocation location=msg.location}}
 					{{/if}}
 				</div>
+				{{#if isCompactAligned}}<time class="time" title='{{date}} {{time}}' datetime='{{date}} {{time}}'>{{time}}</time>{{/if}}
 			</div>
 
+			<div class="attachment-wrapper" style="display: flex;">
+			<div class="quote-spacer"></div>
 			{{#if hasOembed}}
 				{{#each msg.urls}}
 					{{injectMessage . ../msg}}
@@ -129,6 +133,7 @@
 			{{#if broadcast}}
 			 	{{> BroadCastMetric mid=msg._id username=msg.u.username replyBroadcast=actions.replyBroadcast }}
 			{{/if}}
+			</div>
 
 			{{#with readReceipt}}
 				<div class="read-receipt {{readByEveryone}}">
